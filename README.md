@@ -1,4 +1,4 @@
 # Pointers-In-C
 Pointers
 <br>
-Author - Vivek Kumar
+Author - Vivek Kumar[NITT]
