@@ -1,1 +1,1 @@
-{
+int *check(int,int);
