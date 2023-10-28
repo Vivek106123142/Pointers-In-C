@@ -7,14 +7,14 @@ int main()
     printf("enter r\n");
     scanf("%d",&radius);
     areaperi(radius,&area,&perimeter);
-    printf("area=%f\n5",area);
+    printf("area=%f\n",area);
     printf("perimeter=%f",perimeter);
     return 0;
 }
 
-void areaperi(int r,float*a,float*p)
+void areaperi(int uwu,float*oniichan,float*chingping)
 {
-    *a=3.14*r*r;
-    *p=2*3.14*r;
+    *oniichan=3.14*uwu*uwu;
+    *chingping=2*3.14*uwu;
 
 }
