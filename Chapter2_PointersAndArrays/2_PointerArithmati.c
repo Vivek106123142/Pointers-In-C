@@ -5,7 +5,7 @@ int main()
     float j=1.5,*y;
     char k='c',*z;
     printf("value of i=%d\n",i);
-    printf("value of j=%d\n",j);
+    printf("value of j=%f\n",j);
     printf("value of k=%c\n",k);
     x=&i;y=&j;z=&k;
     printf("original address in x=%u\n",x);
