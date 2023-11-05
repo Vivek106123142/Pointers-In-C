@@ -5,10 +5,10 @@ int main()
     char arr[50];
     printf("enter the string");
     scanf("%s",arr);
-    int len1;
-    len1=xstrlen(arr);
+    int len;
+    len=xstrlen(&arr[0]);
     
-    printf("string=%s length=%d\n",arr,len1);
+    printf("string=%s length=%d\n",arr,len);
     
     return 0;
 }
@@ -16,7 +16,7 @@ int main()
 int xstrlen(char *s)
 {
     int length=0;
-    while(*s!='\0')
+    while(*s!='\0')      
     {
         length++;
         s++;

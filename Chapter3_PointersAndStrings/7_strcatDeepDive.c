@@ -16,7 +16,11 @@ int main()
 }
 void xstrcat(char*str2,char*str1)
 {
-    char*ptr=str2+strlen(str2);
+    printf("%d\n",strlen(str2));
+    printf("%d",strlen(str1));
+    //char*ptr= str2 + strlen(str2);
+    char *ptr=str2;
+    ptr=ptr+strlen(str2);
     while(*str1!='\0')
     {
         *ptr=*str1;
