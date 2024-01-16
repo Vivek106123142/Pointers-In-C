@@ -1,24 +1,26 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #define TRUE 1
 #define FALSE 0
 #define MAX 8
-int visited[8];
-// int q[8];
 struct node
 {
     int data;
     struct node *next;
 };
 struct node *newnode;
-void dfs(int, struct node **, int);
+void bfs(int, struct node **, int);
 struct node *getnode_write(int);
+void addqueue(int);
+int deletequeue();
+int isempty();
+int visited[MAX];
+int q[8];
+int front, rear;
 int main()
 {
-    // int i;
-    // struct node *prtNode = NULL;
     struct node *arr[MAX];
-    // struct node *getnode_write(int val);
+    struct node *getnode_write(int val);
     struct node *v1, *v2, *v3, *v4;
     {
         v1 = getnode_write(2);
@@ -78,40 +80,30 @@ int main()
         v3->next = v4 = getnode_write(7);
         v4->next = NULL;
     }
-
-    // for (i = 0; i <= 7; i++)
-    // {
-    //     prtNode = arr[i];
-    //     printf("\nindex=%d", i + 1);
-    //     while (prtNode != NULL)
-    //     {
-    //         printf("\t %d", prtNode->data);
-    //         prtNode = prtNode->next;
-    //     }
-    // }
-    dfs(1, arr, 8);
+    front = rear = -1;
+    bfs(1, arr, 8);
     return 0;
 }
-void dfs(int v, struct node **p, int n)
+
+void bfs(int v, struct node **p, int n)
 {
-    struct node *q;
+    struct node *u;
     visited[v - 1] = TRUE;
-    printf("\n node=%d", v);
-    q = *(p + v - 1);
-    while (q != NULL)
+    printf("%d", v);
+    addqueue(v);
+    while (isempty() == FALSE)
     {
-        if (visited[q->data - 1] == FALSE)
+        v = deletequeue();
+        u = *(p + v - 1);
+        while (u !=NULL)
         {
-            // printf("(%d)\t", q->data);
-            dfs(q->data, p, n);
-        }
-        else
-        {
-            q = q->next;
-            // if (q != NULL)
-            // {
-            //    // printf("|%d|\t", q->data);
-            // }
+            if (visited[u->data - 1] == FALSE)
+            {
+                addqueue(u->data);
+                visited[u->data - 1] = TRUE;
+                printf("%d", u->data);
+            }
+            u = u->next;
         }
     }
 }
@@ -121,4 +113,39 @@ struct node *getnode_write(int val)
     newnode = (struct node *)malloc(sizeof(struct node));
     newnode->data = val;
     return newnode;
+}
+
+void addqueue(int vertex)
+{
+    if (rear == MAX - 1)
+    {
+        printf("Queue overflow");
+        exit(0);
+    }
+    rear++;
+    q[rear] = vertex;
+    if (front == -1)
+        front = 0;
+}
+int deletequeue()
+{
+    int data;
+    if (front == -1)
+    {
+        printf("queue underflow");
+        exit(0);
+    }
+    data = q[front];
+    if (front == rear)
+        front = rear = -1;
+    else
+        front++;
+    return data;
+}
+
+int isempty()
+{
+    if (front == -1)
+        return TRUE;
+    return FALSE;
 }
