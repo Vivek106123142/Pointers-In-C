@@ -34,8 +34,11 @@ int main()
     addatbeg(&p, 777);
     display(p);
     addafter(p, 7, 0);
+    display(p);
     addafter(p, 2, 1);
-    addafter(p, 1, 99);
+    display(p);
+    addafter(p, 9, 99);
+    display(p);
     display(p);
     printf("no. of elements in LL=%d\n", count(p));
     delnode(&p, 888);
@@ -103,7 +106,7 @@ void addafter(struct node *q, int loc, int num)
     int i;
     temp = q;
     // skip to location
-    while (temp->link != NULL)
+    for(i=0;i<loc;i++)  //no while loop haha
     {
         temp = temp->link;
         // if end of LL is  encountered
