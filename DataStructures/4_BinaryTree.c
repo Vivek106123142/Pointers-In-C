@@ -1,92 +1,100 @@
-#include <stdio.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 struct btreenode
 {
     struct btreenode *leftchild;
     int data;
     struct btreenode *rightchild;
 };
-
-void insert(struct btreenode **sr, int num);
-void preorder(struct btreenode *root);
-void inorder(struct btreenode *root);
-void postorder(struct btreenode *root);
+void insert(struct btreenode **, int);
+void inorder(struct btreenode *);
+void preorder(struct btreenode *);
+void postorder(struct btreenode *);
 
 int main()
 {
-    struct btreenode *bt = NULL;
-    int req, i = 1, num;
-
-    printf("Specify the number of data items to be inserted: ");
+    struct btreenode *bt;
+    int req;
+    int i = 1;
+    int num;
+    bt = NULL; // empty tree
+    printf("specify the number of data items to be inserted");
     scanf("%d", &req);
-
     while (i++ <= req)
     {
-        printf("Enter data: ");
+        printf("enter the data");
         scanf("%d", &num);
         insert(&bt, num);
     }
 
-    printf("\nPreorder Traversal: ");
-    preorder(bt);
-
-    printf("\nInorder Traversal: ");
+    printf("\nInorder Traversal\n");
     inorder(bt);
-
-    printf("\nPostorder Traversal: ");
+    printf("\nPostorder Traversal\n");
+    preorder(bt);
+    printf("\nPreorder Traversal\n");
     postorder(bt);
-
     return 0;
 }
 
+// insert new node into BT
 void insert(struct btreenode **sr, int num)
 {
     if (*sr == NULL)
     {
         *sr = (struct btreenode *)malloc(sizeof(struct btreenode));
         (*sr)->leftchild = NULL;
-        (*sr)->rightchild = NULL;
         (*sr)->data = num;
+        (*sr)->rightchild = NULL;
         return;
     }
-
-    if (num < (*sr)->data)
+    else // search the node to which new node will be attached
     {
-        insert(&(*sr)->leftchild, num);
+        // if data is less,traverse to left
+        if (num < (*sr)->data)
+            insert(&((*sr)->leftchild), num);
+        else
+            // traverse to right
+            insert(&((*sr)->rightchild), num);
+    }
+}
+
+// traverse bst in Left-Data-Right fashion
+void inorder(struct btreenode *sr)
+{
+    if (sr != NULL)
+    {
+        inorder(sr->leftchild);
+        // print the data of the node whose leftchild is NULL or the path has already been traversed
+        printf("%d\t", sr->data);
+        inorder(sr->rightchild);
     }
     else
-    {
-        insert(&(*sr)->rightchild, num);
-    }
+        return;
 }
 
-void preorder(struct btreenode *root)
+void preorder(struct btreenode *sr)
 {
-    if (root != NULL)
+    if (sr != NULL)
     {
-        printf("%d ", root->data);
-        preorder(root->leftchild);
-        preorder(root->rightchild);
+        // printf the data of a node
+        printf("%d\t", sr->data);
+        // traverse till leftchild is not NULL
+        preorder(sr->leftchild);
+        // traverse till rightchild is not NULL
+        preorder(sr->rightchild);
     }
+    else
+        return;
 }
 
-void inorder(struct btreenode *root)
+void postorder(struct btreenode *sr)
 {
-    if (root != NULL)
+    if(sr!=NULL)
     {
-        inorder(root->leftchild);
-        printf("%d ", root->data);
-        inorder(root->rightchild);
+        postorder(sr->leftchild);
+        postorder(sr->rightchild);
+        printf("%d\t",sr->data);
     }
-}
-
-void postorder(struct btreenode *root)
-{
-    if (root != NULL)
-    {
-        postorder(root->leftchild);
-        postorder(root->rightchild);
-        printf("%d ", root->data);
-    }
+    else    
+        return;
 }
