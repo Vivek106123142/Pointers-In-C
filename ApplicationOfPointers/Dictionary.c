@@ -3,13 +3,14 @@
 #include <ctype.h>
 #include <stdlib.h>
 void addtolist(int, char *);
-int search_list(int, char *);
+int searchlist(int, char *);
+
 struct clist
 {
     char name[20];
     struct clist *link;
-} struct clist *a[26];
-
+};
+struct clist *a[26];
 int main()
 {
     int sflag, l;
@@ -18,7 +19,7 @@ int main()
     fp = fopen("CNAMES.TXT", "r+");
     if (fp == NULL)
     {
-        printf("unable to open");
+        printf("Unable to Open\n");
         exit(0);
     }
     while (fgets(country, 20, fp))
@@ -29,82 +30,33 @@ int main()
     }
     while (1)
     {
-        printf("enter country to search");
+        printf("Enter the country to serach:\n");
         fflush(stdin);
         gets(country);
-        sflag = search_list(toupper(country[0]) - 65, country);
-
-        if (s)
+        sflag = search_list(toupper(country[0] - 65), country);
+        if (sflag)
             printf("%s is present in the list\n", country);
         else
         {
             printf("Misspelled\n");
-            printf("do you want to add it in the list(Y/N):"\n);
+            printf("do you want to add it to list?(Y/N)");
             ch = getchar();
-            if (tolower(ch) == 'y')
-            {
+            if (tolower(ch) == 'Y')
                 fseek(fp, 0L, SEEK_END);
-                fputs(country, fp);
-                fputs("\n", fp);
-                addtolist(toupper(country[0] - 65), country);
-            }
+            fputs(country, fp);
+            fputs("\n", fp);
+            addtolist(toupper(country[0]) - 65, country);
         }
-        printf("any more countries to search(Y/N):\n");
-        fflush(stdin);
-        ch = getchar();
-        if (tolower(ch) != 'y')
-            break;
     }
-    fclose(fp);
-    return 0;
+    printf("Any more countries to search(Y/N):\n");
+    fflush(stdin);
+    ch = getchar();
+    if (tolower(ch) != 'y')
+        exit;
 }
 
-void addtolist(int index, char *str)
+void addtolist(int index,char *str)
 {
-    struct clist *q, *r, *temp;
-    temp = q = a[index];
-    r = (struct clist *)malloc(sizeof(struct clist));
-    strcpy(r->name, str);
-    // if list is empty
-    if (q == NULL || strcmp(q->name, str) > 0)
-    {
-        q = r;
-        q->link = temp;
-        a[index] = q;
-    }
-    else
-    {
-        // traverse the list
-        while (temp != NULL)
-        {
-            if (strcmp(temp->name, str) <= 0 && (strcmp(temp->link->name, str) > 0) || (temp->link == NULL))
-            {
-                r->link = temp->link;
-                temp->link = r;
-                return;
-            }
-            temp = temp->link;
-        }
-        r->link = NULL;
-        temp->link = r;
-    }
+    struct clist *q,*r,*temp;
+    temp=q=a[index];
 }
-
-int search_list(int index, char *str)
-{
-    struct clist *p;
-    p = a[index];
-    if (p == NULL)
-        return 0;
-    else
-    {
-        while (p != NULL)
-        {
-            if (strcmp(p->name, str) == 0)
-                return 1;
-            else
-                p = p->link
-        }
-        return 0;
-    }
-}[]
